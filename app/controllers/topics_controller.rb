@@ -1,6 +1,7 @@
 class TopicsController < ApplicationController
+  before_action :login_check
   def index
-    @topics = Topic.all
+    @topics = Topic.all.includes(:favorite_users)
   end
   
   def new
