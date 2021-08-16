@@ -1,14 +1,11 @@
 class CommentsController < ApplicationController
   def new
+    @topic = Topic.find(params[:topic_id])
     @comment = Comment.new
-    @topic_id = params[:topic_id]
   end
 
   def create #コメントを登録する
-    @comment = Comment.new #コメントのインスタンスを作成
-    @comment.content = params[:content] #コメントの内容をパラメータから受け取る
-    @comment.user_id = current_user.id #ログイン中のユーザーIDを代入
-    @comment.topic_id = params[:topic_id] #記事番号をパラメータから受け取る
+    @comment = Comment.new(comment_params)
     
     if @comment.save #コメント登録の条件分岐
       redirect_to topics_path, success: 'コメントに成功しました' 
@@ -17,4 +14,9 @@ class CommentsController < ApplicationController
       render :new
     end
   end
+  
+  private
+    def comment_params
+      params.require(:comment).permit(:content).merge(topic_id: params[:topic_id], user_id: current_user.id)
+    end
 end
