@@ -6,7 +6,6 @@ class CommentsController < ApplicationController
 
   def create #コメントを登録する
     @comment = Comment.new(comment_params)
-    
     if @comment.save #コメント登録の条件分岐
       redirect_to topics_path, success: 'コメントに成功しました' 
     else
