@@ -10,7 +10,6 @@ class CommentsController < ApplicationController
     if @comment.save #コメント登録の条件分岐
       redirect_to topics_path, success: 'コメントに成功しました' 
     else
-      flash.now[:danger] = "コメントに失敗しました"
       render :new
     end
   end
